@@ -1,0 +1,86 @@
+import 'dart:convert';
+
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+class User {
+  final String id;
+  final String name;
+  final String email;
+  final String password;
+  final String address;
+  final String type;
+  final String token;
+  final String? avatar;
+  final List<dynamic> cart;
+  User({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.address,
+    required this.type,
+    required this.token,
+    this.avatar,
+    required this.cart,
+  });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'email': email,
+      'password': password,
+      'address': address,
+      'type': type,
+      'token': token,
+      'avatar': avatar,
+      'cart': cart,
+    };
+  }
+
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      id: map['_id'] as String,
+      name: map['name'] as String,
+      email: map['email'] as String,
+      password: map['password'] as String,
+      address: map['address'] as String,
+      type: map['type'] as String,
+      token: map['token'] as String,
+      avatar: map['avatar'] != null ? map['avatar'] as String : null,
+      cart: List<Map<String, dynamic>>.from(
+        map['cart']?.map(
+          (x) => Map<String, dynamic>.from(x),
+        ),
+      ),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory User.fromJson(String source) =>
+      User.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  User copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? password,
+    String? address,
+    String? type,
+    String? token,
+    String? avatar,
+    List<dynamic>? cart,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      password: password ?? this.password,
+      address: address ?? this.address,
+      type: type ?? this.type,
+      token: token ?? this.token,
+      avatar: avatar ?? this.avatar,
+      cart: cart ?? this.cart,
+    );
+  }
+}
